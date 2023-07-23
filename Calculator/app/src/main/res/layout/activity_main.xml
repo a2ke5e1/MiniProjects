@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <TextView
+        android:id="@+id/expression_textView"
+        android:layout_width="match_parent"
+        app:layout_constraintBottom_toTopOf="@id/operations_flow"
+        android:layout_height="wrap_content" />
+
+    <androidx.constraintlayout.helper.widget.Flow
+        android:id="@+id/numbers_flow"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:flow_horizontalGap="4dp"
+        app:flow_horizontalStyle="packed"
+        app:flow_lastHorizontalStyle="spread"
+        app:flow_maxElementsWrap="3"
+        app:flow_verticalGap="4dp"
+        app:flow_verticalStyle="packed"
+        app:flow_wrapMode="chain"
+        app:layout_constraintBottom_toBottomOf="parent" />
+
+    <androidx.constraintlayout.helper.widget.Flow
+        android:id="@+id/operations_flow"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:flow_horizontalGap="4dp"
+        app:flow_horizontalStyle="packed"
+        app:flow_lastHorizontalStyle="spread"
+        app:flow_maxElementsWrap="3"
+        app:flow_verticalGap="4dp"
+        app:flow_verticalStyle="packed"
+        app:flow_wrapMode="chain"
+        app:layout_constraintBottom_toTopOf="@id/numbers_flow"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
