@@ -1,76 +1,145 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <androidx.constraintlayout.helper.widget.Flow
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/appBarLayout"
+        style="@style/Widget.Material3.AppBarLayout"
         android:layout_width="match_parent"
-        app:flow_wrapMode="chain"
-        app:flow_maxElementsWrap="1"
-        app:flow_verticalGap="10dp"
-        app:flow_horizontalGap="10dp"
-        android:layout_height="wrap_content"
-        app:constraint_referenced_ids="progress_bar,from,to, value_container, result_container, conBtn" />
-
-
-    <com.google.android.material.progressindicator.CircularProgressIndicator
-        android:id="@+id/progress_bar"
-        style="@style/Widget.Material3.CircularProgressIndicator"
-        android:layout_width="100dp"
-        android:visibility="gone"
-        android:indeterminateOnly="true"
-        android:layout_height="wrap_content" />
-
-    <Spinner
-        android:id="@+id/from"
-        android:padding="20dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:entries="@array/currencies" />
-
-    <Spinner
-        android:id="@+id/to"
-        android:padding="20dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:entries="@array/currencies" />
-
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/value_container"
-        style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
-        android:layout_width="100dp"
         android:layout_height="wrap_content">
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/value"
-            android:hint="Amount"
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/toolbar"
+            style="@style/Widget.Material3.Toolbar.Surface"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:elevation="1dp"
+            app:titleCentered="true" />
 
-    </com.google.android.material.textfield.TextInputLayout>
+    </com.google.android.material.appbar.AppBarLayout>
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/result_container"
-        style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
-        android:layout_width="100dp"
-        android:layout_height="wrap_content">
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/result"
-            android:hint="Result"
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="match_parent">
 
-    </com.google.android.material.textfield.TextInputLayout>
 
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/conBtn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Convert" />
+            <com.google.android.material.progressindicator.CircularProgressIndicator
+                android:id="@+id/progress_bar"
+                style="@style/Widget.Material3.CircularProgressIndicator"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:indeterminateOnly="true"
+                android:visibility="gone"
+                tools:visibility="visible" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/from_container"
+                style="@style/Widget.Material3.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content">
+
+                <AutoCompleteTextView
+                    android:id="@+id/from"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:hint="From"
+                    android:inputType="none"
+                    app:simpleItems="@array/currencies" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/to_container"
+                style="@style/Widget.Material3.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                tools:layout_editor_absoluteX="287dp"
+                tools:layout_editor_absoluteY="150dp">
+
+                <AutoCompleteTextView
+                    android:id="@+id/to"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:hint="To"
+                    android:inputType="none"
+                    app:simpleItems="@array/currencies" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/value_container"
+                style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                tools:layout_editor_absoluteY="250dp">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/value"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Amount" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+
+            <TextView
+                android:id="@+id/result"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:hint="Result"
+                android:padding="8dp"
+                tools:layout_editor_absoluteX="0dp"
+                tools:layout_editor_absoluteY="356dp" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/conBtn"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="Convert"
+                tools:layout_editor_absoluteX="189dp"
+                tools:layout_editor_absoluteY="411dp" />
+
+            <androidx.constraintlayout.helper.widget.Flow
+                android:id="@+id/flow"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:constraint_referenced_ids="from_container, to_container"
+                app:flow_firstHorizontalStyle="packed"
+                app:flow_horizontalAlign="start"
+                app:flow_horizontalGap="16dp"
+                app:flow_horizontalStyle="spread_inside"
+                app:flow_verticalStyle="spread_inside"
+                app:flow_wrapMode="aligned"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <androidx.constraintlayout.helper.widget.Flow
+                android:id="@+id/flow2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
+                android:orientation="vertical"
+                app:constraint_referenced_ids="progress_bar,flow,value_container,result,conBtn"
+                app:flow_verticalGap="8dp"
+                app:layout_constraintEnd_toStartOf="@+id/from_container"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    </androidx.core.widget.NestedScrollView>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
