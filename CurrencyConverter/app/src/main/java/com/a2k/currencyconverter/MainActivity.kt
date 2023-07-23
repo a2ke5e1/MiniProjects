@@ -1,6 +1,5 @@
 package com.a2k.currencyconverter
 
-import android.R
 import android.icu.util.Currency
 import android.icu.util.CurrencyAmount
 import android.os.Bundle
@@ -20,6 +19,7 @@ import androidx.core.view.updatePadding
 import androidx.lifecycle.lifecycleScope
 import com.a2k.currencyconverter.databinding.ActivityMainBinding
 import com.a2k.currencyconverter.main.MainViewModel
+import com.google.android.material.textfield.MaterialAutoCompleteTextView
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -47,8 +47,16 @@ class MainActivity : AppCompatActivity() {
         }
 
 
+        (binding.from as MaterialAutoCompleteTextView).setSimpleItems(R.array.currencies)
+        (binding.to as MaterialAutoCompleteTextView).setSimpleItems(R.array.currencies)
+
+
         binding.from.setText("INR", false)
         binding.to.setText("USD", false)
+        binding.valueContainer.prefixText =  CurrencyAmount(
+            0,
+            Currency.getInstance(binding.from.text.toString())
+        ).currency.symbol.toString()
 
         binding.from.setOnItemClickListener { adapterView, view, i, l ->
             binding.valueContainer.prefixText =  CurrencyAmount(
