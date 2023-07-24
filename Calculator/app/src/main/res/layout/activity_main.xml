@@ -9,33 +9,18 @@
     <TextView
         android:id="@+id/expression_textView"
         android:layout_width="match_parent"
-        app:layout_constraintBottom_toTopOf="@id/operations_flow"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:padding="8dp"
+        android:textAlignment="textEnd"
+        android:textAppearance="@style/TextAppearance.Material3.DisplayLarge"
+        app:layout_constraintBottom_toTopOf="@id/numbers_flow" />
 
     <androidx.constraintlayout.helper.widget.Flow
         android:id="@+id/numbers_flow"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:flow_horizontalGap="4dp"
-        app:flow_horizontalStyle="packed"
-        app:flow_lastHorizontalStyle="spread"
-        app:flow_maxElementsWrap="3"
-        app:flow_verticalGap="4dp"
-        app:flow_verticalStyle="packed"
+        app:flow_maxElementsWrap="4"
         app:flow_wrapMode="chain"
         app:layout_constraintBottom_toBottomOf="parent" />
-
-    <androidx.constraintlayout.helper.widget.Flow
-        android:id="@+id/operations_flow"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:flow_horizontalGap="4dp"
-        app:flow_horizontalStyle="packed"
-        app:flow_lastHorizontalStyle="spread"
-        app:flow_maxElementsWrap="3"
-        app:flow_verticalGap="4dp"
-        app:flow_verticalStyle="packed"
-        app:flow_wrapMode="chain"
-        app:layout_constraintBottom_toTopOf="@id/numbers_flow"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

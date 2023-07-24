@@ -1,17 +1,15 @@
 package com.a2k.calculator
 
-import android.content.Context
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.AttributeSet
-import android.view.ContextThemeWrapper
 import android.view.View
 import android.widget.LinearLayout
 import android.widget.Toast
-import androidx.annotation.AttrRes
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import androidx.core.view.ViewCompat
 import androidx.core.view.WindowCompat
-import androidx.core.view.updateLayoutParams
+import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.updatePadding
 import com.a2k.calculator.databinding.ActivityMainBinding
 import com.google.android.material.button.MaterialButton
 import com.notkamui.keval.Keval
@@ -31,49 +29,75 @@ class MainActivity : AppCompatActivity() {
         window.navigationBarColor = ContextCompat.getColor(this, android.R.color.transparent)
         window.statusBarColor = ContextCompat.getColor(this, android.R.color.transparent)
         WindowCompat.setDecorFitsSystemWindows(window, false)
-        /*setSupportActionBar(binding.toolbar)
-        ViewCompat.setOnApplyWindowInsetsListener(binding.toolbar) { view, windowInsets ->
+        /*setSupportActionBar(binding.toolbar) */
+        ViewCompat.setOnApplyWindowInsetsListener(binding.root) { view, windowInsets ->
             val insets = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars())
-            view.updatePadding(top = insets.top)
+            view.updatePadding(top = insets.top, bottom = insets.bottom)
             WindowInsetsCompat.CONSUMED
-        }*/
-
-        for (i in 9 downTo 0) {
-            val numberButton = MaterialButton(this)
-            numberButton.id = View.generateViewId()
-            numberButton.text = i.toString()
-            numberButton.setOnClickListener {
-                binding.expressionTextView.text = binding.expressionTextView.text.toString() + i.toString()
-            }
-            binding.root.addView(numberButton)
-            val referenceIds = binding.numbersFlow.referencedIds.toMutableList()
-            referenceIds.add(numberButton.id)
-            binding.numbersFlow.referencedIds = referenceIds.toIntArray()
         }
 
-        val operations = listOf("+", "-", "*", "/",  "<", ".", "=",)
-        operations.forEach {i ->
+        val numberUI = arrayListOf<String>(
+            "^", "C", "<", "/",
+            "7", "8", "9", "×",
+            "4", "5", "6", "-",
+            "1", "2", "3", "+",
+            "", "0", ".", "="
+        )
+
+        numberUI.forEach { i ->
             val numberButton = MaterialButton(this)
             numberButton.id = View.generateViewId()
-            numberButton.text = i.toString()
 
+            val params = LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.WRAP_CONTENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT
+            )
+
+            params.width = 200
+            params.height = 200
+
+            numberButton.layoutParams = params
+            numberButton.text = i.toString()
             numberButton.setOnClickListener {
                 when (i) {
+                    "C" -> {
+                        binding.expressionTextView.text = ""
+                    }
+
                     "=" -> {
                         try {
-                        binding.expressionTextView.text =
-                            Keval.eval(binding.expressionTextView.text.toString()).toString()
+
+                            val calculatedResult =
+                                Keval{
+                                    includeDefault()
+                                    operator {
+                                        symbol = '×'
+                                        precedence = 3
+                                        isLeftAssociative = true
+                                        implementation = { a, b -> a * b }
+                                    }
+                                }.eval(binding.expressionTextView.text.toString())
+                            var formattedResult = calculatedResult.toString()
+                            if (calculatedResult.equals(calculatedResult.toInt().toDouble())) {
+                                formattedResult = calculatedResult.toInt().toString()
+                            }
+                            binding.expressionTextView.text = formattedResult
+
                         } catch (e: KevalInvalidExpressionException) {
                             Toast.makeText(baseContext, "Invalid Syntax", Toast.LENGTH_SHORT).show()
                         }
                     }
+
                     "<" -> {
                         val expression = binding.expressionTextView.text
                         if (expression.isNotEmpty()) {
-                            binding.expressionTextView.text = expression.subSequence(0, expression.length - 1)
+                            binding.expressionTextView.text =
+                                expression.subSequence(0, expression.length - 1)
                         }
                     }
-                    else -> binding.expressionTextView.text = binding.expressionTextView.text.toString() + i
+
+                    else -> binding.expressionTextView.text =
+                        binding.expressionTextView.text.toString() + i
                 }
             }
 
@@ -85,11 +109,11 @@ class MainActivity : AppCompatActivity() {
                 return@setOnLongClickListener false
             }
 
-
             binding.root.addView(numberButton)
-            val referenceIds = binding.operationsFlow.referencedIds.toMutableList()
+            val referenceIds = binding.numbersFlow.referencedIds.toMutableList()
             referenceIds.add(numberButton.id)
-            binding.operationsFlow.referencedIds = referenceIds.toIntArray()
+            binding.numbersFlow.referencedIds = referenceIds.toIntArray()
+
         }
 
 
