@@ -54,10 +54,12 @@ class MainActivity : AppCompatActivity() {
                     cameraManager.setTorchMode(cameraID, true)
                     torchState = true
                     (it as Button).text = getString(R.string.off)
+                    Toast.makeText(baseContext, "Flashlight is on", Toast.LENGTH_LONG).show()
                 } else {
                     cameraManager.setTorchMode(cameraID, false)
                     torchState = false
                     (it as Button).text = getString(R.string.on)
+                    Toast.makeText(baseContext, "Flashlight is off", Toast.LENGTH_LONG).show()
                 }
             } catch (e: Exception) {
                 Toast.makeText(baseContext, "Failed to start flashlight", Toast.LENGTH_LONG).show()
